@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Nav from './components/Nav';
+import Books from './containers/Books';
+import CreateBook from './containers/CreateBook';
+
+class App extends Component {
+  
+
+    state = {
+      pathname: '',
+    };
+    // this.notifypathname = this.notifypathname.bind(this);
+
+
+  notifypathname = (pathname) => {
+    this.setState({
+      pathname:pathname,
+    });
+  }
+
+  render() {
+    return (
+      <Router>
+      <div className="App">
+        <Nav notifypathname={this.notifypathname}
+        pathname={this.state.pathname} />
+        <Switch>
+          <Route path="/" exact component={() => <Books/>}></Route>
+          <Route path="/create" exact component={() => <CreateBook/>}></Route>
+          <Route 
+          path="/edit/:id" 
+          exact 
+          book={this.state.book} 
+          component={(props) => <CreateBook {...props}/>}></Route>
+        </Switch>
+      </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

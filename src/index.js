@@ -4,10 +4,28 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {createStore, applyMiddleware} from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk'
+import rootReducer from './reducers';
+
+import {BrowserRouter as Router} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+import { fetchBooks } from './actions/book.actions';
+
+const store = createStore(rootReducer,applyMiddleware(thunk));
+
+store.dispatch(fetchBooks());
+
+export const history = createBrowserHistory({forceRefresh: true});
+
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
+    <Router>
     <App />
-  </React.StrictMode>,
+  </Router>
+  </Provider>
+  ,
   document.getElementById('root')
 );
 
