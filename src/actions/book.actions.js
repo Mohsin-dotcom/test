@@ -121,8 +121,8 @@ const id = data.ID;
 
 return axios.put(url, data) 
     .then(response => {
-        return axios.get(`${url}/${id}`).
-            then(response => {
+        return axios.get(`${url}/${id}`)
+            .then(response => {
                 dispatch(updateBookSuccess(response.data));
                 history.push('/');
             }).catch(error => {
